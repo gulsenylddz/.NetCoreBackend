@@ -1,30 +1,14 @@
-﻿using Entities.Concrete;
+﻿using Core.DataAccess;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface IProductDal   //Dal=Data Access Layer 
+    //ÜRÜN DETAYLARININ VERİLDİĞİ SAYFA( ÜRÜNÜN DETAYLARINI GETİR GİBİ)
+    public interface IProductDal : IEntityRepository<Product> //Dal=Data Access Layer 
     {
-        List<Product> GetAll();
-
-        void Add(Product product);
-
-        void Update (Product product);
-
-        void Delete(Product product);
-
-
-        List<Product> GetAllByCategory(int categoryId);
-
-
         
-
-
-
-
-
-
     }
 }
