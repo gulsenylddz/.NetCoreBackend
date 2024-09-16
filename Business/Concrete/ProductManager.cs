@@ -19,10 +19,23 @@ namespace Business.Concrete  //INTERFACE OLUŞTURDUĞUNDA PUBLIC YAPMAYI UNUTMA
         }
 
 
-        public List<Product> GetAll() //İŞ SINIFLARI BAŞKA SINIFLARI NEW'LEMEZ.
+        public List<Product> GetAllByCategoryId() //İŞ SINIFLARI BAŞKA SINIFLARI NEW'LEMEZ.
         {
             return _iproductDal.GetAll();
             //iş kodları
         }
+
+        public List<Product> GetAllByCategoryId(int id)
+        {
+            return _iproductDal.GetAll(p => p.CategoryId == id);
+        }
+
+        public List<Product> GetByUnitPrice(decimal min, decimal max)
+        {
+            return _iproductDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max);
+           
+}
+
+
     }
 }
