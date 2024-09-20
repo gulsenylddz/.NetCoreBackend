@@ -2,11 +2,13 @@
 using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Business.Concrete  //INTERFACE OLUŞTURDUĞUNDA PUBLIC YAPMAYI UNUTMA 
@@ -14,51 +16,66 @@ namespace Business.Concrete  //INTERFACE OLUŞTURDUĞUNDA PUBLIC YAPMAYI UNUTMA
     public class ProductManager : IProductService //İŞ KATMANININ SOMUT SINIFI.(MANAGER)
     {
 
-        IProductDal _iproductDal;
-        public ProductManager(IProductDal productDal) {
-            _iproductDal = productDal;
+        IProductDal iproductDal;
+        public ProductManager(IProductDal productDal)
+        {
+            iproductDal = productDal;
         }
 
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length<2)
+            if (product.ProductName.Length < 2)
             {
                 return new ErrorResult(Messages.ProductNameInvalid); //magic strings
             }
 
-            _iproductDal.Add(product);
+            iproductDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
         }
-
-        public List<Product> GetAll()
+        public IDataResult<List<Product>> GetAll()
         {
-            return _iproductDal.GetAll();
+            //if (DateTime.Now.Hour == 11)
+            //{
+            //    return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            //}
+
+            //return new SuccessDataResult<List<Product>>(iproductDal.GetAll(), Messages.ProductListed);
+
+            return new ErrorDataResult<List<Product>>()
+            {
+                Message = Messages.ProductAddeds
+            };
         }
 
         public List<Product> GetAllByCategoryId() //İŞ SINIFLARI BAŞKA SINIFLARI NEW'LEMEZ.
         {
-            return _iproductDal.GetAll();
+            return iproductDal.GetAll();
             //iş kodları
         }
 
-        public List<Product> GetAllByCategoryId(int id)
+        public IDataResult<List<Product>> GetAllByCategoryId(int id)
         {
-            return _iproductDal.GetAll(p => p.CategoryId == id);
+            return new SuccessDataResult<List<Product>>(iproductDal.GetAll(p => p.CategoryId == id));
         }
 
-        public Product GetById(int productId)
+        public IDataResult<Product> GetById(int productId)
         {
-            return _iproductDal.Get(p=>p.ProductId== productId);
+            return new SuccessDataResult<Product>(iproductDal.Get(p => p.ProductId == productId));
         }
 
-        public List<Product> GetByUnitPrice(decimal min, decimal max)
+        public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
         {
-            return _iproductDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max);
-}
+            return new SuccessDataResult<List<Product>>(iproductDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max));
+        }
 
-        public List<ProductDetailDto> GetProductDetails()
+        public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            return _iproductDal.GetProductDetails();
-        }  
+            return new SuccessDataResult<List<ProductDetailDto>>(iproductDal.GetProductDetails());
+        }
+
+        IDataResult<List<Product>> IProductService.GetAllByCategoryId()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
