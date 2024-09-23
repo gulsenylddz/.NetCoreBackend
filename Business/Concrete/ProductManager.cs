@@ -1,18 +1,16 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspect.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
-using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Business.Concrete  //INTERFACE OLUŞTURDUĞUNDA PUBLIC YAPMAYI UNUTMA 
 {
+
+    //CROSS CUTTING CONCERNS:LOG-CACHE-TRANSACTION-AUTHORIZATION...
     public class ProductManager : IProductService //İŞ KATMANININ SOMUT SINIFI.(MANAGER)
     {
 
@@ -22,29 +20,26 @@ namespace Business.Concrete  //INTERFACE OLUŞTURDUĞUNDA PUBLIC YAPMAYI UNUTMA
             iproductDal = productDal;
         }
 
+
+        [ValidationAspect(typeof(ProductValidator))]
+
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length < 2)
-            {
-                return new ErrorResult(Messages.ProductNameInvalid); //magic strings
-            }
+            //business codes 
 
             iproductDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
         }
         public IDataResult<List<Product>> GetAll()
         {
-            //if (DateTime.Now.Hour == 11)
-            //{
-            //    return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
-            //}
-
-            //return new SuccessDataResult<List<Product>>(iproductDal.GetAll(), Messages.ProductListed);
-
-            return new ErrorDataResult<List<Product>>()
+            if (DateTime.Now.Hour == 11)
             {
-                Message = Messages.ProductAddeds
-            };
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            }
+
+            var result = new SuccessDataResult<List<Product>>(iproductDal.GetAll(), Messages.ProductListed);
+            return result;
+
         }
 
         public List<Product> GetAllByCategoryId() //İŞ SINIFLARI BAŞKA SINIFLARI NEW'LEMEZ.
