@@ -1,5 +1,4 @@
 ﻿using Business.Abstract;
-using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspect.Autofac.Validation;
 using Core.Utilities.Results;
@@ -7,7 +6,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 
-namespace Business.Concrete  //INTERFACE OLUŞTURDUĞUNDA PUBLIC YAPMAYI UNUTMA 
+namespace Business.Constants  //INTERFACE OLUŞTURDUĞUNDA PUBLIC YAPMAYI UNUTMA 
 {
 
     //CROSS CUTTING CONCERNS:LOG-CACHE-TRANSACTION-AUTHORIZATION...
