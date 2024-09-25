@@ -11,6 +11,6 @@ namespace Core.Utilities.Results
     {
         public bool Success { get; } // sadece okuma yapılacağı için set'e ihtiyaç yok.
 
-        public string Message { get; } 
+        public string Message { get; }  
     }
 }
