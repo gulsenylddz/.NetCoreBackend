@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
             _productService = productService;
         }
 
-        [HttpGet("getall")]
+        [HttpGet("getAll")]
 
         public IActionResult Get() 
         {
@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
 
         }
 
-        [HttpGet("getbyid")]
+        [HttpGet("getById")]
 
         public IActionResult GetById(int id)
         {
