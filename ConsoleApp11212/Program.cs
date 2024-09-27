@@ -1,5 +1,6 @@
 ﻿
 using Business.Concrete;
+using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 
 
@@ -15,7 +16,7 @@ public class Program {
     public static void CategoryTest()
     {
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
-        foreach (var category in categoryManager.GetAll())
+        foreach (var category in categoryManager.GetAll().Data)
         {
             Console.WriteLine(category.CategoryName);
         }
@@ -24,7 +25,8 @@ public class Program {
 
      public static void ProductTest()
     {
-        ProductManager productManager = new ProductManager(new EfProductDal());
+        CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+        ProductManager productManager = new ProductManager(new EfProductDal(), categoryManager);
 
         var result = productManager.GetProductDetails();
 
