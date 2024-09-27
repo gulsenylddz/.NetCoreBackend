@@ -6,7 +6,9 @@ using static Core.Utilities.Interceptors.Class1;
 
 namespace Core.Aspect.Autofac.Validation
 {
-    public class ValidationAspect : MethodInterception
+    public class ValidationAspect : MethodInterception //aspect:metodun basında
+                                                       //sonunda veya metod içerisinde hata verilince
+                                                       //calısacak yapıdır.
     {
         private Type _validatorType;
         public ValidationAspect(Type validatorType)

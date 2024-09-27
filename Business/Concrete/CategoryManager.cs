@@ -1,9 +1,7 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -16,16 +14,20 @@ namespace Business.Concrete
             _categoryDal = categoryDal;
         }
 
-        public List<Category> GetAll()
+        public IDataResult<List<Category>> GetAll()
         {
-            return _categoryDal.GetAll();
-           
+            throw new NotImplementedException();
         }
 
         public Category GetById(int categoryId)
         {
-            return _categoryDal.Get(c=>c.CategoryId==categoryId);
-            
+            return _categoryDal.Get(c=>c.CategoryId==categoryId);  
+        }
+
+
+        IDataResult<Category> ICategoryService.GetById(int categoryId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
